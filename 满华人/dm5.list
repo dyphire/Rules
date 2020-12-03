@@ -4,4 +4,5 @@ DOMAIN-SUFFIX,manhuaren.com
 DOMAIN-SUFFIX,picacomic.com
 DOMAIN-SUFFIX,wakamoment.tk
 DOMAIN-SUFFIX,tipatipa.xyz
-IP-CIDR,196.55.215.140/443
+DOMAIN-SUFFIX,wikwika.xyz
+IP-CIDR,196.55.215.140
