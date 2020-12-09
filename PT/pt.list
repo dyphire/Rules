@@ -291,9 +291,3 @@ DOMAIN-SUFFIX,xthor.tk
 DOMAIN-SUFFIX,xthor.to
 DOMAIN-SUFFIX,yingk.com
 
-#General Torrent Keyword
-DOMAIN-KEYWORD,announce
-DOMAIN-KEYWORD,torrent
-DOMAIN-KEYWORD,tracker
-DOMAIN-SUFFIX,smtp
-URL-REGEX,(Subject|HELO|SMTP)
