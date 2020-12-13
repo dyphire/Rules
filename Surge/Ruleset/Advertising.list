@@ -1,4 +1,6 @@
 # Advertising 广告（以及隐私追踪）
+# > pica
+DOMAIN-SUFFIX,wikawika.xyz
 # > General
 DOMAIN-KEYWORD,adservice
 DOMAIN-KEYWORD,analytics
