@@ -1,6 +1,90 @@
 # Advertising 广告（以及隐私追踪）
 # > pica
 DOMAIN-SUFFIX,wikawika.xyz
+
+#####Jable.tv av吃到饱
+DOMAIN-SUFFIX,asewlfjqwlflkew.com
+DOMAIN-SUFFIX,uus52.com
+DOMAIN-SUFFIX,uus58.com
+DOMAIN-SUFFIX,ddmax20.xyz
+DOMAIN-SUFFIX,ads.exosrv.com
+DOMAIN-KEYWORD,exosrv
+DOMAIN-KEYWORD,asewlfjqwlflkew
+DOMAIN-SUFFIX,tyrantdb.com
+DOMAIN-SUFFIX,adserve.work
+
+#####nfmovies.com 奈菲影视
+DOMAIN-SUFFIX,s96.cnzz.com
+#DOMAIN-SUFFIX,yabo729.com
+
+######m.pianku.me/ 手机片库网
+#DOMAIN-KEYWORD,xn--2qux23c9ziyrq
+DOMAIN-SUFFIX,xn--3bs795g.zone
+DOMAIN-SUFFIX,xn--2qux23c9ziyrq.plus
+DOMAIN-SUFFIX,xn--2qux23c9ziyrq.club
+DOMAIN-SUFFIX,xn--xhq9mt12cf5v.xn--io0a7i
+DOMAIN-SUFFIX,ddmax20.xyz
+#DOMAIN-SUFFIX,www.avple.video
+DOMAIN-SUFFIX,xn--3bs795g.link
+
+#####netflav.com Netflav
+DOMAIN-SUFFIX,ad.pornimg.xyz
+DOMAIN-SUFFIX,yandex.ru
+DOMAIN-SUFFIX,awaitcola.com
+#DOMAIN-SUFFIX,jsdelivr.net
+DOMAIN-SUFFIX,wine-api.net
+#DOMAIN-KEYWORD,wixsite.com
+DOMAIN-SUFFIX,exosrv.com
+DOMAIN-SUFFIX,juicyads.com
+#DOMAIN-SUFFIX,wixstatic.com
+DOMAIN-SUFFIX,thumb.fvs.io
+DOMAIN-SUFFIX,itnuzleafan.com
+DOMAIN-SUFFIX,oawhaursaith.com
+DOMAIN-SUFFIX,unreshiramor.com
+
+#####avgle.me
+DOMAIN-SUFFIX,jads.co
+DOMAIN-SUFFIX,adxadserv.com
+DOMAIN-SUFFIX,moatads.com
+DOMAIN-SUFFIX,juicyads.in
+DOMAIN-SUFFIX,dtscout.com
+
+#####dilili.tv
+DOMAIN-SUFFIX,51.la
+DOMAIN-SUFFIX,51daeka.com
+
+######porn
+DOMAIN-SUFFIX,trafficjunky.com
+
+#####xvideos
+
+
+##### ja.nyahentai.com
+DOMAIN-SUFFIX,adserver.juicyads.com
+DOMAIN-SUFFIX,poweredby.jads.co
+DOMAIN-SUFFIX,jads.co
+
+##### www.cocomanhua.com
+DOMAIN-SUFFIX,exdynsrv.com
+#DOMAIN-SUFFIX,cloudfront.net
+DOMAIN-SUFFIX,d227cncaprzd7y.cloudfront.net
+DOMAIN-SUFFIX,d10lumateci472.cloudfront.net
+
+##### www.mfkhm.com
+DOMAIN-SUFFIX,new.xiongzhangad.com
+
+##### m.yhdm.io
+DOMAIN-SUFFIX,dvzk66.cn
+DOMAIN-SUFFIX,pu0glv.cn
+
+##### www.porntrex.com/
+#DOMAIN-SUFFIX,ads.bullionyield.com
+
+##### https://www.zhenbuka.com/
+DOMAIN,2785.dlads.cn
+DOMAIN,dagonghuzhu.com
+#DOMAIN-SUFFIX,byteimg.com
+
 # > General
 DOMAIN-KEYWORD,adservice
 DOMAIN-KEYWORD,analytics
@@ -870,3 +954,5 @@ URL-REGEX,^https?:\/\/itunes\.apple\.com\/lookup\?id=575826903
 URL-REGEX,^https?:\/\/www\.zybang\.com\/adx\/
 # > 最右
 URL-REGEX,^https?:\/\/api\.izuiyou\.com\/ad\/
+
+
