@@ -31,7 +31,7 @@ let config = {
   wifi: "RULE", // wifi下默认的模式
   all_direct: ["888", "WRT32X Extreme"], // 指定全局直连的wifi名字
   all_proxy: [], // 指定全局代理的wifi名字
-  whitelist: ["🛑 广告净化", "🛡️ 隐私防护""🌏 出海媒体""🎧 网易音乐"],
+  whitelist: ["🛑 广告净化", "🛡️ 隐私防护", "🌏 出海媒体", "🎧 网易音乐"],
 };
 
 const isLoon = typeof $loon !== "undefined";
