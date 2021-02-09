@@ -29,7 +29,7 @@ let config = {
   silence: false, // 是否静默运行，默认false
   cellular: "RULE", // 蜂窝数据下的模式，RULE代表规则模式，PROXY代表全局代理，DIRECT代表全局直连
   wifi: "RULE", // wifi下默认的模式
-  all_direct: ["888", "WRT32X Extreme"], // 指定全局直连的wifi名字
+  all_direct: ["WRT32X", "WRT32X Extreme"], // 指定全局直连的wifi名字
   all_proxy: [], // 指定全局代理的wifi名字
   whitelist: ["🛑 广告净化", "🛡️ 隐私防护", "🌏 出海媒体", "🎧 网易音乐"],
 };
