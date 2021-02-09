@@ -1,4 +1,6 @@
 # 内容：BilibiliHMT 哔哩哔哩 港澳台番剧
+USER-AGENT,Bilibili*
+USER-AGENT,bili*
 PROCESS-NAME,com.bilibili.app.in
 DOMAIN-SUFFIX,acgvideo.com
 DOMAIN-SUFFIX,bilibili.com
