@@ -39,11 +39,6 @@ dns:
       - 0.0.0.0/32
 hosts:
   services.googleapis.cn: 172.217.24.195
-  u2.dmhy.org: 104.25.26.31
-  tracker.dmhy.org: 104.25.26.31
-  share.dmhy.org: 104.25.26.31
-  daydream.dmhy.best: 104.25.26.31
-  tracker.hdchina.org: 104.25.26.31
 # System proxy will ignore these domains(or ipnet)
 cfw-bypass:
   - localhost
