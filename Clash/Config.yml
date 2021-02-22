@@ -31,7 +31,7 @@ dns:
     enable: true
     stack: gvisor
     dns-hijack:
-     - 198.18.0.2:53
+      - 198.18.0.2:53
   fallback-filter:
     geoip: true
     ipcidr:
