@@ -27,16 +27,16 @@ dns:
   - tls://8.8.4.4:853
   - tls://1.0.0.1:853
   - https://1.1.1.1/dns-query
-  tun:
-    enable: true
-    stack: gvisor
-    dns-hijack:
-      - 198.18.0.2:53
-  fallback-filter:
+   fallback-filter:
     geoip: true
     ipcidr:
       - 240.0.0.0/4
       - 0.0.0.0/32
+tun:
+  enable: true
+  stack: gvisor
+  dns-hijack:
+    - 198.18.0.2:53
 hosts:
   services.googleapis.cn: 172.217.24.195
 # System proxy will ignore these domains(or ipnet)
