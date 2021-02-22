@@ -1,43 +1,101 @@
 mixed-port: 7890
-socks-port: 7891
-allow-lan: true
+redir-port: 7892
+allow-lan: false
 mode: Rule
 log-level: info
-external-controller: 127.0.0.1:9090
+external-controller: 127.0.0.1:51269
+secret: ''
 dns:
   enable: true
-  listen: 0.0.0.0:53
-  default-nameserver:
-    - 223.5.5.5
-    - 1.0.0.1
   ipv6: false
+  listen: 0.0.0.0:5300
   enhanced-mode: redir-host
-  fake-ip-range: 198.10.0.1/16
+  default-nameserver:
+  - 114.114.114.114
+  - 8.8.8.8
   nameserver:
-    - 119.29.29.29
-    - 114.114.114.114
-    - 223.5.5.5
-    - tls://dns.rubyfish.cn:853
-    - https://dns.alidns.com/dns-query
-    - https://rubyfish.cn/dns-query
+  - 114.114.114.114
+  - 119.29.29.29
+  - 182.254.116.116
+  - 202.101.172.35
+  - 202.101.172.47
+  - https://dns.pub/dns-query
+  - https://223.5.5.5/dns-query
+
   fallback:
-    - tls://1.0.0.1:853
-    - dns.google:853
-    - dns.google/dns-query
-    - tls://dns.rubyfish.cn:853  
+  - tcp://1.1.1.1
+  - tls://dns.rubyfish.cn:853
+  - tls://8.8.4.4:853
+  - tls://1.0.0.1:853
+  - https://1.1.1.1/dns-query
+  tun:
+    enable: true
+    stack: gvisor
+    dns-hijack:
+     - 198.18.0.2:53
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
 hosts:
   services.googleapis.cn: 172.217.24.195
-  young-cell-3dd2.dyphire.workers.dev: 104.17.144.237
-proxies: ~
-proxy-groups: ~
-rules: ~
-{% else %}
-  enhanced-mode: redir-host
-  nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.rixcloud.dev/dns-query
-    - https://120.25.25.166/dns-query
-proxies: ~
-proxy-groups: ~
-rules: ~
-{% endif %}
+  u2.dmhy.org: 104.25.26.31
+  tracker.dmhy.org: 104.25.26.31
+  share.dmhy.org: 104.25.26.31
+  daydream.dmhy.best: 104.25.26.31
+  tracker.hdchina.org: 104.25.26.31
+# System proxy will ignore these domains(or ipnet)
+cfw-bypass:
+  - localhost
+  - 127.*
+  - 10.*
+  - 172.16.*
+  - 172.17.*
+  - 172.18.*
+  - 172.19.*
+  - 172.20.*
+  - 172.21.*
+  - 172.22.*
+  - 172.23.*
+  - 172.24.*
+  - 172.25.*
+  - 172.26.*
+  - 172.27.*
+  - 172.28.*
+  - 172.29.*
+  - 172.30.*
+  - 172.31.*
+  - 192.168.*
+  - <local>
+
+# Proxies module latency test settings
+cfw-latency-timeout: 3000 # seconds
+cfw-latency-url: http://www.gstatic.com/generate_204
+
+# Identify strategy of breaking connections after switching to a new proxy/profile/mode
+# Options for proxy: none, chain(proxy group in connection chains), all
+# Options for profile: true, false
+# Options for mode: true, false
+cfw-conn-break-strategy:
+  proxy: none
+  profile: true
+  mode: false
+
+# Run child process after CFW started
+# Refer: https://docs.cfw.lbyczf.com/contents/childprocess.html
+cfw-child-process: []
+
+# Will be ignored after profile selection
+Proxy:
+  - name: Shadowsocks
+    type: socks5
+    server: 127.0.0.1
+    port: 1080
+Proxy Group:
+  - name: Proxy
+    type: select
+    proxies:
+      - Shadowsocks
+Rule:
+  - 'MATCH,DIRECT'
