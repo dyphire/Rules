@@ -21,7 +21,6 @@ dns:
   - 202.101.172.47
   - https://dns.pub/dns-query
   - https://223.5.5.5/dns-query
-
   fallback:
   - tcp://1.1.1.1
   - tls://dns.rubyfish.cn:853
