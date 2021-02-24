@@ -2,7 +2,7 @@ mixinText: |-
   mixin: # object
     dns:
       enable: true
-      listen: 0.0.0.0:5300
+      listen: 0.0.0.0:53
       enhanced-mode: redir-host
       default-nameserver:
         - 114.114.114.114
