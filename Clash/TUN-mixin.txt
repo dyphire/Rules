@@ -17,6 +17,12 @@ mixin: # object
       - tls://dns.rubyfish.cn:853
       - tls://8.8.4.4:853
       - tls://1.0.0.1:853
+  hosts:
+    'bbs.vcb-s.com': 47.240.95.103
+    'dmhy.org': 104.25.27.31
+    '*.dmhy.org': 104.25.27.31
+    'hdchina.org': 172.67.148.83
+    '*.hdchina.org': 172.67.148.83
   tun:
     enable: true
     stack: gvisor
