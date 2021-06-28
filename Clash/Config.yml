@@ -1,4 +1,12 @@
-mixed-port: 7890
-allow-lan: false
-external-controller: '127.0.0.1:9090'
+# 混合代理端口
+mixed-port: 11223
+
+# 允许局域网的连接
+allow-lan: true
+
+# Clash 的 RESTful API
+external-controller: 127.0.0.1:59231
+
+# RESTful API 的口令
 secret: ''
+log-level: info
