@@ -23,8 +23,8 @@ ixinText: |-
       stack: gvisor
       dns-hijack:
         - 198.18.0.2:53
-      auto-route: true
-      auto-detect-interface: true
+      macOS-auto-route: true
+      macOS-auto-detect-interface: true
 showNewVersionIcon: true
 hideAfterStartup: true
 randomControllerPort: true
