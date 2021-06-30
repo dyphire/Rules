@@ -2,7 +2,9 @@ mixin: # object
   dns:
     enable: true
     ipv6: false
+    listen: 0.0.0.0:53
     enhanced-mode: redir-host
+    fake-ip-range: 198.18.0.1/16
     nameserver:
       - tls://doh.pub:853
       - tls://dns.alidns.com:853
@@ -38,3 +40,7 @@ mixin: # object
       - 198.18.0.2:53
     macOS-auto-route: true
     macOS-auto-detect-interface: true
+
+#tun网卡无网络权限解决方法
+#打开注册表路径 HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator
+#新建一个名为DisablePassivePolling的DWORD，值为0，重启
