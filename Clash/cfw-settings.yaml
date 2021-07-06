@@ -10,7 +10,24 @@ mixinText: >-
       listen: 0.0.0.0:53
       enhanced-mode: redir-host
       fake-ip-range: 198.18.0.1/16
-      use-hosts: true 
+      use-hosts: true
+      fake-ip-filter:   
+        - '*.lan'
+        - localhost.ptlogin2.qq.com
+        - "dns.msftncsi.com"
+        - "www.msftncsi.com"
+        - "www.msftconnecttest.com" 
+        - '+.srv.nintendo.net'
+        - '+.stun.playstation.net'
+        - '+.msftconnecttest.com'
+        - '+.msftncsi.com'
+        - '+.xboxlive.com'
+        - 'msftconnecttest.com'
+        - 'xbox.*.microsoft.com'
+        - '*.battlenet.com.cn'
+        - '*.battlenet.com'
+        - '*.blzstatic.cn'
+        - '*.battle.net'
       nameserver:
         - tls://doh.pub:853
         - tls://dns.alidns.com:853
