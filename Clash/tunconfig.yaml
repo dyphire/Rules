@@ -10,17 +10,34 @@ dns:
   ipv6: false                    # default is false
   listen: 0.0.0.0:53
   enhanced-mode: redir-host      # or fake-ip
-  fake-ip-range: 198.18.0.1/16   # if you don't know what it is, don't change it
   use-hosts: true                # lookup hosts and return IP record
+  default-nameserver:            # nameserver 裡 DoH / DoT 的域名使用 default-nameserver 請求
+    - 223.5.5.5                  # 阿里云DNS
+    - 223.6.6.6                  # 阿里云DNS
+    - 1.0.0.1                    # Cloudflare DNS
+  fake-ip-range: 198.18.0.1/16   # if you don't know what it is, don't change it
   fake-ip-filter:                # fake ip white domain list, aka Always Real IP
     - '*.lan'
     - localhost.ptlogin2.qq.com
     - "dns.msftncsi.com"
     - "www.msftncsi.com"
     - "www.msftconnecttest.com"
-  nameserver:
-    - 223.5.5.5                  # 阿里DNS
-    - 114.114.114.114            # 114DNS 
+    - '+.srv.nintendo.net'
+    - '+.stun.playstation.net'
+    - '+.msftconnecttest.com'
+    - '+.msftncsi.com'
+    - '+.xboxlive.com'
+    - 'msftconnecttest.com'
+    - 'xbox.*.microsoft.com'
+    - '*.battlenet.com.cn'
+    - '*.battlenet.com'
+    - '*.blzstatic.cn'
+    - '*.battle.net'
+  nameserver:                           # 國內域名使用 nameserver 請求
+    - https://doh.pub/dns-query         # 腾讯DNS
+    - https://dns.alidns.com/dns-query  # 阿里DNS
+    - 223.5.5.5                         # 阿里DNS
+    - 114.114.114.114                   # 114DNS 
     - tls://doh.pub:853
     - tls://dns.alidns.com:853
     - https://dns.pub/dns-query
@@ -29,9 +46,13 @@ dns:
     - 182.254.116.116
     - 202.101.172.35
     - 202.101.172.47  
-  fallback:                      # concurrent request with nameserver, 
-    - 1.1.1.1                    # cloudflare
-    - 8.8.8.8                    # google
+  fallback:                                 # 國外域名使用 fallback 請求 (没有被污染的DNS)
+    - https://cloudflare-dns.com/dns-query  # Cloudflare DNS
+    - https://freedns.controld.com/p0       # Control DNS
+    - https://doh.dns.sb/dns-query          # DNS.SB
+    - https://dns.twnic.tw/dns-query        # 台灣網路資訊中心 DNS
+    - 1.1.1.1                               # cloudflare
+    - 8.8.8.8                               # google
     - tls://dns.google:853
     - tls://1.1.1.1:853
     - https://1.1.1.1/dns-query
@@ -39,16 +60,21 @@ dns:
     - tls://dns.rubyfish.cn:853  
     - tls://8.8.4.4:853
     - tls://1.0.0.1:853
-  fallback-filter: 
+  fallback-filter:               # fallback请求过滤
     geoip: true                  # default    
     ipcidr:                      # ips in these subnets will be considered polluted
       - 240.0.0.0/4
+      - 127.0.0.1/8
+      - 0.0.0.0/32
+    domain:
+      - "+.github.com"
+      - "+.youtube.com"
 hosts:
-  'bbs.vcb-s.com': 47.240.95.103
-  'dmhy.org': 104.25.27.31
-  '*.dmhy.org': 104.25.27.31
-  'hdchina.org': 172.67.148.83
-  '*.hdchina.org': 172.67.148.83
+  'bbs.vcb-s.com': '47.240.95.103'
+  'dmhy.org': '104.25.27.31'
+  '*.dmhy.org': '104.25.27.31'
+  'hdchina.org': '172.67.148.83'
+  '*.hdchina.org': '172.67.148.83'
 tun:
   enable: true
   stack: gvisor
