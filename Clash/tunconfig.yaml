@@ -18,7 +18,7 @@ dns:
   fake-ip-range: 198.18.0.1/16   # if you don't know what it is, don't change it
   fake-ip-filter:                # fake ip white domain list, aka Always Real IP
     - '*.lan'
-    - localhost.ptlogin2.qq.com
+    - 'localhost.ptlogin2.qq.com'
     - "dns.msftncsi.com"
     - "www.msftncsi.com"
     - "www.msftconnecttest.com"
@@ -64,11 +64,6 @@ dns:
     geoip: true                  # default    
     ipcidr:                      # ips in these subnets will be considered polluted
       - 240.0.0.0/4
-      - 127.0.0.1/8
-      - 0.0.0.0/32
-    domain:
-      - "+.github.com"
-      - "+.youtube.com"
 hosts:
   'bbs.vcb-s.com': 47.240.95.103
   'dmhy.org': 104.25.27.31
