@@ -66,8 +66,11 @@ IP-CIDR,125.209.208.0/20,no-resolve
 IP-CIDR,147.92.128.0/17,no-resolve
 IP-CIDR,203.104.144.0/21,no-resolve
 # > Other
-DOMAIN-SUFFIX,themoviedb.org
+DOMAIN-SUFFIX,bgm.tv
 DOMAIN-SUFFIX,bangumi.tv
+DOMAIN-SUFFIX,acgnx.se
+DOMAIN-SUFFIX,anix.moe
+DOMAIN-SUFFIX,themoviedb.org
 DOMAIN-SUFFIX,last.fm
 DOMAIN-SUFFIX,4shared.com
 DOMAIN-SUFFIX,520cc.cc
