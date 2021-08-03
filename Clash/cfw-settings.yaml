@@ -74,8 +74,8 @@ mixinText: >-
       stack: gvisor
       dns-hijack:
         - 198.18.0.2:53
-      macOS-auto-route: true
-      macOS-auto-detect-interface: true
+      auto-route: true
+      auto-detect-interface: true
 
   # tun网卡无网络权限解决方法
 
