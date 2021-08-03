@@ -69,9 +69,9 @@ mixin: # object
     stack: gvisor
     dns-hijack:
       - 198.18.0.2:53
-    macOS-auto-route: true
-    macOS-auto-detect-interface: true
-
+    auto-route: true
+    auto-detect-interface: true
+#wintun.dll 下载更新地址：https://www.wintun.net/
 # tun网卡无网络权限解决方法
 # 打开注册表路径 HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator
 # 新建一个名为DisablePassivePolling的DWORD，值为0，重启
