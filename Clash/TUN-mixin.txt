@@ -58,7 +58,7 @@ mixin: # object
       ip-cidr:
         - 240.0.0.0/4
   hosts:
-    'bbs.vcb-s.com': 47.240.95.103
+    'bbs.acgrip.com': 47.240.95.103
     'raw.githubusercontent.com': 199.232.68.133 
     'dmhy.org': 104.25.27.31
     '*.dmhy.org': 104.25.27.31
