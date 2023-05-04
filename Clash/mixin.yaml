@@ -1,5 +1,5 @@
 mixin: # object
-  hosts:        # fake-ip 模式下不生效
+  hosts:
     'bbs.acgrip.com': 47.240.95.103
     'dmhy.org': 104.25.27.31
     '*.dmhy.org': 104.25.27.31
@@ -10,12 +10,9 @@ mixin: # object
     enable: true
     ipv6: false
     listen: 0.0.0.0:53          # 监听本地的53端口
-    enhanced-mode: redir-host   # or fake-ip
+    enhanced-mode: fake-ip
 #   fake-ip-range: 198.18.0.1/16
 #   use-hosts: true
-#   fake-ip-filter: 
-#     - '*.lan'   
-#     - localhost.ptlogin2.qq.com
     nameserver-policy:
       'bbs.acgrip.com': 47.240.95.103
       'dmhy.org': 104.25.27.31
@@ -114,14 +111,21 @@ mixin: # object
         - +.gvt1.com
         - +.github.com
         - +.githubusercontent.com
+        - +.stun.*.*
+        - +.stun.*.*.*
+        - +.stun.*.*.*.*
+        - +.stun.*.*.*.*.*
+        - "*.n.n.srv.nintendo.net"
+        - +.stun.playstation.net
+        - xbox.*.*.microsoft.com
+        - "*.*.xboxlive.com"
+        - "*.msftncsi.com"
+        - "*.msftconnecttest.com"
+        - WORKGROUP
   tun:
     enable: true
     stack: gvisor # 使用 system 需要 Clash Premium 2021.05.08 及更高版本
-    dns-hijack:
-      - 198.18.0.2:53
     auto-route: true
     auto-detect-interface: true # 自动检测出口网卡
-# wintun.dll 下载更新地址：https://www.wintun.net/
-# tun网卡无网络权限解决方法
-# 打开注册表路径 HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\NetworkConnectivityStatusIndicator
-# 新建一个名为DisablePassivePolling的DWORD，值为0，重启
+    dns-hijack:
+      - any:53
