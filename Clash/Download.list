@@ -19,7 +19,22 @@ DOMAIN-KEYWORD,Thunder
 DOMAIN-KEYWORD,XLLiveUD
 
 #Download
+PROCESS-NAME,qbittorrent
+PROCESS-NAME,Motrix
+PROCESS-NAME,aria2c
+PROCESS-NAME,fdm
+PROCESS-NAME,Folx
+PROCESS-NAME,NetTransport
+PROCESS-NAME,Thunder
+PROCESS-NAME,Transmission
+PROCESS-NAME,uTorrent
+PROCESS-NAME,WebTorrent
+PROCESS-NAME,WebTorrent Helper
+PROCESS-NAME,DownloadService
+PROCESS-NAME,Weiyun
+PROCESS-NAME,baidunetdisk
 PROCESS-NAME,qbittorrent.exe
+PROCESS-NAME,Motrix.exe
 PROCESS-NAME,aria2c.exe
 PROCESS-NAME,fdm.exe
 PROCESS-NAME,Folx.exe
