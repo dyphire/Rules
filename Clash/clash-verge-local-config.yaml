@@ -1,0 +1,897 @@
+## 基于 clash.meta 配置，meta 文档：https://wiki.metacubex.one/
+
+# mode: rule
+# mixed-port: 7890
+# allow-lan: false
+# log-level: info
+# ipv6: false
+# secret: "在此修改访问令牌"
+# external-controller: 0.0.0.0:9090
+# external-ui: /opt/yacd/
+
+## 进程匹配模式：always/strict(默认值)/off
+# find-process-mode: strict
+## 全局客户端指纹
+# global-client-fingerprint: chrome
+
+# profile:
+    # 储存 API 对策略组的选择，以供下次启动时使用
+  # store-selected: true
+    # 储存 fakeip 映射表，域名再次发生连接时，使用原有映射地址
+  # store-fake-ip: true
+
+# sniffer:
+#   enable: true
+#   sniff:
+#     TLS:
+#       ports: [443, 8443]
+#     HTTP:
+#       ports: [80, 8080-8880]
+#       override-destination: true
+
+## GEO 数据模式：true / false(默认值)
+# geodata-mode: true
+## GEO 文件加载模式：standard / memconservative(默认值)
+# geodata-loader: memconservative
+## 自定 GEO 下载地址
+# geox-url:
+#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+
+hosts:
+  'bbs.acgrip.com': 47.240.95.103
+  'dmhy.org': 104.25.27.31
+  '*.dmhy.org': 104.25.27.31
+  'hdchina.org': 104.20.9.218
+  '*.hdchina.org': 104.20.9.218
+  '*.m-team.cc': 104.26.13.50
+
+dns:
+  enable: true
+  ipv6: false
+  listen: 0.0.0.0:53            # 监听本地的53端口
+  enhanced-mode: fake-ip
+ #fake-ip-range: 198.18.0.1/16  # Fake IP 地址池 CIDR
+  use-hosts: true               # 查找 hosts 并返回 IP 记录
+  default-nameserver:     # 用于解析 nameserver 里面 DoH/DoT 的域名
+    - 223.5.5.5           # 阿里 AliDNS
+    - 223.6.6.6           # 阿里 AliDNS
+    - 119.29.29.29        # 腾讯 DNSPod DNS+
+    - 182.254.116.116     # 腾讯 DNSPod DNS+
+ #  - 1.0.0.1             # Cloudflare DNS
+ #  - 1.1.1.1             # Cloudflare DNS
+ #  - 1.2.4.8             # CNNIC SDNS
+ #  - 210.2.4.8           # CNNIC SDNS
+    - 114.114.114.114     # 114 DNS
+    - 114.114.115.115     # 114 DNS
+ #  - 180.76.76.76        # 百度 BaiduDNS
+ #  - 117.50.11.11        # oneDNS
+ #  - 52.80.66.66         # oneDNS
+    - 8.8.8.8             # Google DNS
+    - 8.8.4.4             # Google DNS
+ #  - 9.9.9.9             # IBM Quad9
+ #  - 4.2.2.1             # Level3 DNS
+ #  - 4.2.2.2             # Level3 DNS
+ #  - 208.67.222.222      # OpenDNS
+ #  - 208.67.220.220      # OpenDNS
+ #  - 199.91.73.222       # V2EX DNS
+ #  - 178.79.131.110      # V2EX DNS
+ #  - 185.222.222.222     # DNS.SB
+ #  - 185.184.222.222     # DNS.SB      
+  nameserver:                              # 國內域名使用 nameserver 請求
+    - tls://dns.alidns.com:853
+    - tls://doh.pub:853
+    - tls://i.233py.com:853
+    - https://dns.alidns.com/dns-query     # Ali DoH
+ #  - https://doh.opendns.com/dns-query    # OpenDNS DoH
+    - https://223.5.5.5/dns-query
+    - https://223.6.6.6/dns-query
+    - tls://120.53.53.53
+    - tls://1.12.12.12
+ #  - "[2400:3200::1]:53"                  # Ali IPv6 DNS
+ #  - "[2400:3200:baba::1]:53"             # Ali IPv6 DNS
+ #  - "[240C::6666]:53"                    # 天地互连 IPv6 DNS
+ #  - "[240C::6644]:53"                    # 天地互连 IPv6 DNS
+ #通过特定的名称服务器查找域名
+  nameserver-policy:
+    "geosite:cn,private":
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
+    'www.baidu.com': '114.114.114.114'
+    '+.internal.crop.com': '10.0.0.1'
+  fallback:                                # 國外域名使用 fallback 請求 (没有被污染的DNS)
+    - https://dns.google/dns-query         # Google DoH
+    - https://cloudflare-dns.com/dns-query # Cloudflare DoH
+    - https://public.dns.iij.jp/dns-query  # IIJ.JP DoH
+    - https://dns.adguard.com/dns-query    # Adguard DoH
+    - https://doh.dns.sb/dns-query
+    - https://jp.tiar.app/dns-query
+    - https://dns.switch.ch/dns-query      # SWITCH DoH
+    - https://dns.east.comss.one/dns-query # Comss.ru DoH
+    - https://dns.twnic.tw/dns-query       # Quad101 DoH
+    - https://1.0.0.1/dns-query
+    - https://1.1.1.1/dns-query
+    - tls://public.dns.iij.jp
+    - tls://jp.tiar.app
+    - tls://dns.switch.ch
+    - tls://dns.east.comss.one
+    - tls://dns.google
+    - tls://dns.adguard.com
+    - tls://1.1.1.1
+    - tls://101.101.101.101
+    - tls://dns.google:853
+    - tls://1.1.1.1:853
+    - tls://8.8.4.4:853
+    - tls://1.0.0.1:853
+ #  - dhcp://en0                           # dns from dhcp
+ #  - 1.1.1.1                              # cloudflare
+ #  - 8.8.8.8                              # google
+ #  - "[2001:4860:4860::8888]:53"          # Google IPv6 DNS
+ #  - "[2001:4860:4860::8844]:53"          # Google IPv6 DNS
+  fallback-filter:
+    geoip: true     # 默认，当 geoip 匹配 geoip-code ，Clash 将使用 nameserver 查询的结果，否则 Clash 将仅使用 fallback 查询的结果
+    geoip-code: CN
+    ipcidr:         # 在这个网段内的 IP 地址会被考虑为被污染的 IP ，当 nameserver 查询的结果匹配这些 IP ，Clash 将使用 fallback 查询的结果
+      - 0.0.0.0/32
+      - 10.0.0.0/8
+      - 100.64.0.0/10
+      - 127.0.0.0/32
+      - 169.254.0.0/16
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 198.18.0.0/15
+      - 224.0.0.0/4
+      - 255.255.255.255/32
+    domain:
+      - +.facebook.com
+      - +.twitter.com
+      - +.google.com
+      - +.googleapis.com
+      - +.google.cn
+      - +.googleapis.cn
+      - +.xn--ngstr-lra8j.com
+      - +.googlevideo.com
+      - +.gvt1.com
+      - +.gmail.com
+      - +.youtube.com
+      - +.youtu.be
+      - +.gvt0.com
+      - +.gvt2.com
+      - +.gvt3.com
+      - +.gstatic.com
+      - +.265.com
+      - +.2mdn.net
+      - +.app-measurement.com
+      - +.c.admob.com
+      - +.clickserve.dartsearch.net
+      - +.crl.pki.goog
+      - +.doubleclick.net
+      - +.firebase-settings.crashlytics.com
+      - +.google-analytics.com
+      - +.googleadservices.com
+      - +.googleanalytics.com
+      - +.googleoptimize.com
+      - +.googlesyndication.com
+      - +.googletagmanager.com
+      - +.googletagservices.com
+  fake-ip-filter:        # 此列表中的主机名将不会使用 Fake IP 解析，而是返回真实 IP 解析
+    - "*.lan"
+    - "*.localdomain"
+    - "*.example"
+    - "*.invalid"
+    - "*.localhost"
+    - "*.test"
+    - "*.local"
+    - "*.home.arpa"
+    - time.*.com
+    - time.*.gov
+    - time.*.edu.cn
+    - time.*.apple.com
+    - time1.*.com
+    - time2.*.com
+    - time3.*.com
+    - time4.*.com
+    - time5.*.com
+    - time6.*.com
+    - time7.*.com
+    - ntp.*.com
+    - ntp1.*.com
+    - ntp2.*.com
+    - ntp3.*.com
+    - ntp4.*.com
+    - ntp5.*.com
+    - ntp6.*.com
+    - ntp7.*.com
+    - "*.time.edu.cn"
+    - "*.ntp.org.cn"
+    - +.pool.ntp.org
+    - time1.cloud.tencent.com
+    - music.163.com
+    - "*.music.163.com"
+    - "*.126.net"
+    - musicapi.taihe.com
+    - music.taihe.com
+    - songsearch.kugou.com
+    - trackercdn.kugou.com
+    - "*.kuwo.cn"
+    - api-jooxtt.sanook.com
+    - api.joox.com
+    - joox.com
+    - y.qq.com
+    - "*.y.qq.com"
+    - streamoc.music.tc.qq.com
+    - mobileoc.music.tc.qq.com
+    - isure.stream.qqmusic.qq.com
+    - dl.stream.qqmusic.qq.com
+    - aqqmusic.tc.qq.com
+    - amobile.music.tc.qq.com
+    - "*.xiami.com"
+    - "*.music.migu.cn"
+    - music.migu.cn
+    - dns.msftncsi.com
+    - www.msftncsi.com
+    - www.msftconnecttest.com
+    - "*.msftncsi.com"
+    - "*.msftconnecttest.com"
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+    - msftconnecttest.com
+    - msftncsi.com
+    - +.ipv6.microsoft.com
+    - localhost.ptlogin2.qq.com
+    - localhost.sec.qq.com
+    - +.srv.nintendo.net
+    - +.stun.playstation.net
+    - xbox.*.microsoft.com
+    - xnotify.xboxlive.com
+    - +.battlenet.com.cn
+    - "*.blzstatic.cn"
+    - "*.battle.net"
+    - +.wotgame.cn
+    - +.wggames.cn
+    - +.wowsgame.cn
+    - +.wargaming.net
+    - proxy.golang.org
+    - stun.*.*
+    - stun.*.*.*
+    - +.stun.*.*
+    - +.stun.*.*.*
+    - +.stun.*.*.*.*
+    - heartbeat.belkin.com
+    - "*.linksys.com"
+    - "*.linksyssmartwifi.com"
+    - "*.router.asus.com"
+    - mesu.apple.com
+    - swscan.apple.com
+    - swquery.apple.com
+    - swdownload.apple.com
+    - swcdn.apple.com
+    - swdist.apple.com
+    - lens.l.google.com
+    - stun.l.google.com
+    - "*.square-enix.com"
+    - "*.finalfantasyxiv.com"
+    - "*.ffxiv.com"
+    - "*.ff14.sdo.com"
+    - ff.dorado.sdo.com
+    - "*.mcdn.bilivideo.cn"
+    - +.media.dssott.com
+    - +.pvp.net
+    - WORKGROUP
+
+tun:
+  enable: true
+  stack: system    # 默认模式：gvisor
+  auto-route: true
+  auto-detect-interface: true # 自动检测出口网卡
+  dns-hijack:
+    - any:53
+
+proxy-providers:
+  Subs:
+    type: http
+    path: ./Proxies/Subs.yaml
+    url: ""
+    interval: 86400 # 一天
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 600
+  #Subs2:
+  #  type: http
+  #  path: ./Proxies/Subs2.yaml
+  #  url: ""
+  #  interval: 86400 # 一天
+  #  health-check:
+  #    enable: true
+  #    url: https://www.gstatic.com/generate_204
+  #    interval: 600
+
+######### 锚点 start #######
+SELECTL_PROXIES:
+  &SELECTL_PROXIES {
+    type: select,
+    proxies:
+      [
+        DIRECT,
+        🔰 节点选择,
+        🇭🇰 香港节点,
+        🇹🇼 台湾节点,
+        🇸🇬 新加坡节点,
+        🇯🇵 日本节点,
+        🇺🇸 美国节点,
+        ♻️ 自动选择,
+        🚀 手动切换,
+      ],
+  }
+
+URLTEST:
+  &URLTEST {
+    type: url-test,
+    url: https://www.gstatic.com/generate_204,
+    interval: 600,
+    tolerance: 50,
+    lazy: true,
+  }
+######### 锚点 end #######
+
+proxy-groups:
+  - name: 🔰 节点选择
+    type: select
+    proxies:
+      - 🔄 自动回退
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - ♻️ 自动选择
+      - 🚀 手动切换
+
+  - name: ♻️ 自动选择
+    <<: *URLTEST
+    use:
+      - Subs
+      #- Subs2
+
+  - name: 🚀 手动切换
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    exclude-filter: test|特殊|时期|重置|到期|剩余流量|时间|域名|官网|网站|网址|产品|失联|节点名称|群|TG|最新|更新|订阅|测速|：
+
+  - name: 🎞 PT
+    <<: *SELECTL_PROXIES
+
+  - name: 📲 Telegram
+    <<: *SELECTL_PROXIES
+
+  - name: 📹 YouTube
+    <<: *SELECTL_PROXIES
+
+  - name: 📢 谷歌服务
+    <<: *SELECTL_PROXIES
+
+  - name: ☁ OneDrive
+    <<: *SELECTL_PROXIES
+  
+  - name: Ⓜ️ 微软服务
+    <<: *SELECTL_PROXIES
+
+  - name: ☁ iCloud
+    <<: *SELECTL_PROXIES
+
+  - name: 🍎 苹果服务
+    <<: *SELECTL_PROXIES
+
+  - name: 🎥 NETFLIX
+    type: select
+    proxies:
+      - 🎥 流媒体解锁
+      - 🔰 节点选择
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - ♻️ 自动选择
+      - 🚀 手动切换
+      - DIRECT
+
+  - name: 📽 Niconico
+    type: select
+    proxies:
+      - 🎥 流媒体解锁
+      - 🔰 节点选择
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - ♻️ 自动选择
+      - 🚀 手动切换
+      - DIRECT
+  
+  - name: 🎬 国外媒体
+    type: select
+    proxies:
+      - 🎥 流媒体解锁
+      - 🔰 节点选择
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - ♻️ 自动选择
+      - 🚀 手动切换
+      - DIRECT
+
+  - name: 🍖 Porn
+    <<: *SELECTL_PROXIES
+
+  - name: 🎧 Spotify
+    <<: *SELECTL_PROXIES
+
+  - name: 🎮 游戏平台
+    <<: *SELECTL_PROXIES
+  
+  - name: 🎞 港台媒体
+    <<: *SELECTL_PROXIES
+
+  - name: 📔 港台漫画
+    <<: *SELECTL_PROXIES
+  
+  - name: 🌏 出海媒体
+    <<: *SELECTL_PROXIES
+
+  - name: 🌏 国内媒体
+    <<: *SELECTL_PROXIES
+
+  - name: 🌍 国外网站
+    <<: *SELECTL_PROXIES
+
+  - name: 🛑 广告净化
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+
+  - name: 🛡️ 隐私防护
+    type: select
+    proxies:
+      - REJECT
+      - DIRECT
+  
+  - name: 🎯 全球直连
+    <<: *SELECTL_PROXIES
+
+  - name: 🐟 漏网之鱼
+    <<: *SELECTL_PROXIES
+
+  - name: 🔄 自动回退
+    type: fallback
+    url: https://www.gstatic.com/generate_204
+    interval: 600
+    proxies:
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 新加坡节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+
+  - name: 🇭🇰 香港节点
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: (?i)HK|香港|港|Hong Kong|HONG|Hong|HGC
+
+  - name: 🇹🇼 台湾节点
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: (?i)TW|台湾|台|Taiwan|新北|彰化|Tai
+
+  - name: 🇸🇬 新加坡节点
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: (?i)SG|新加坡|坡|Singapore|狮城|Singa
+
+  - name: 🇯🇵 日本节点
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: (?i)JP|Jap|日本|日|Japan|川日|东京|大阪|泉日|埼玉|沪日|深日
+
+  - name: 🇺🇸 美国节点
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: (?i)US|美国|美|United States|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥
+
+  - name: 🎥 流媒体解锁
+    type: select
+    use:
+      - Subs
+      #- Subs2
+    filter: \[M\]|NF|解锁|Netflix|NETFLIX|netflix|奈飞|奶飞|Amazon|amazon|Nico|nico|BBC|bbc
+
+rules:
+  - DOMAIN,clash.razord.top,DIRECT # Clash 面板
+  - DOMAIN,yacd.haishan.me,DIRECT # Clash 面板
+  - RULE-SET,PT,🎞 PT
+  - RULE-SET,Download,🎯 全球直连
+  - RULE-SET,Applications,🎯 全球直连 # 需要直连的常见软件列表
+  - RULE-SET,Private,DIRECT # 私有网络专用域名列表
+  - RULE-SET,UnBan,🛑 广告净化
+  - RULE-SET,BanAD,🛑 广告净化
+  - RULE-SET,BanProgramAD,🛑 广告净化
+  - RULE-SET,BanEasyList,🛑 广告净化
+  - RULE-SET,BanEasyListChina,🛑 广告净化
+  - RULE-SET,Reject,🛑 广告净化 # 广告净化列表
+  - RULE-SET,BanEasyPrivacy,🛡️ 隐私防护
+  - RULE-SET,YouTube,📹 YouTube
+  - RULE-SET,Google,📢 谷歌服务
+  - RULE-SET,GoogleCN,📢 谷歌服务
+  - RULE-SET,GoogleFCM,📢 谷歌服务
+  - RULE-SET,GoogleCNProxyIP,📢 谷歌服务
+  - RULE-SET,OneDrive,☁ OneDrive
+  - RULE-SET,Microsoft,Ⓜ️ 微软服务
+  - RULE-SET,ICloud,☁ iCloud # iCloud 域名列表
+  - RULE-SET,Apple,🍎 苹果服务 # Apple 在中国大陆可直连的域名列表
+  - RULE-SET,Telegram,📲 Telegram
+  - RULE-SET,Telegramcidr,📲 Telegram # Telegram 使用的 IP 地址列表
+  - RULE-SET,Netflix,🎥 NETFLIX
+  - RULE-SET,Niconico,📽 Niconico
+  - RULE-SET,Amazon,🎬 国外媒体
+  - RULE-SET,BBC,🎬 国外媒体
+  - RULE-SET,ProxyMedia,🎬 国外媒体
+  - RULE-SET,Porn,🍖 Porn
+  - RULE-SET,Spotify,🎧 Spotify
+  - RULE-SET,Steamcn,🎯 全球直连
+  - RULE-SET,Steam,🎮 游戏平台
+  - RULE-SET,Epic,🎮 游戏平台
+  - RULE-SET,Sony,🎮 游戏平台
+  - RULE-SET,Xbox,🎮 游戏平台
+  - RULE-SET,Game,🎮 游戏平台
+  - RULE-SET,Bahamut,🎞 港台媒体
+  - RULE-SET,Manhua,📔 港台漫画
+  - RULE-SET,BilibiliHMT,🌏 出海媒体
+  - RULE-SET,IqiyiHMT,🌏 出海媒体
+  - RULE-SET,ChinaMedia,🌏 国内媒体
+  - RULE-SET,ProxyLite,🌍 国外网站
+  - RULE-SET,ProxyGFWlist,🌍 国外网站
+  - RULE-SET,GFW,🌍 国外网站 # GFWList 域名列表
+  - RULE-SET,ExtraList,🌍 国外网站
+  - RULE-SET,Proxy,🌍 国外网站 # 代理域名列表
+  - RULE-SET,Tld-not-cn,🌍 国外网站 # 非中国大陆使用的顶级域名列表
+  - RULE-SET,ChinaDomain,DIRECT
+  - RULE-SET,ChinaCompanyIp,DIRECT
+  - RULE-SET,Direct,DIRECT # 直连域名列表
+  - RULE-SET,Lancidr,DIRECT # 局域网 IP 及保留 IP 地址列表
+  - RULE-SET,ChinaIp,DIRECT # 中国大陆 IP 地址列表
+  - RULE-SET,CNcidr,DIRECT # 中国大陆 IP 地址列表
+  - GEOIP,LAN,DIRECT
+  - GEOIP,CN,DIRECT
+  - MATCH,🐟 漏网之鱼
+
+rule-providers:
+  PT:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/PT/Pt.yaml
+    path: ./providers/rule/pt.yaml
+    interval: 86400
+  Download:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/Download.yaml
+    path: ./providers/rule/Download.yaml
+    interval: 86400
+  Applications:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt
+    path: ./providers/rule/applications.yaml
+    interval: 86400
+  Private:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt
+    path: ./providers/rule/private.yaml
+    interval: 86400
+  UnBan:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/UnBan.yaml
+    path: ./providers/rule/UnBan.yaml
+    interval: 86400
+  BanAD:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanAD.yaml
+    path: ./providers/rule/BanAD.yaml
+    interval: 86400
+  BanProgramAD:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanProgramAD.yaml
+    path: ./providers/rule/BanProgramAD.yaml
+    interval: 86400
+  BanEasyList:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyList.yaml
+    path: ./providers/rule/BanEasyList.yaml
+    interval: 86400
+  BanEasyListChina:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyListChina.yaml
+    path: ./providers/rule/BanEasyListChina.yaml
+    interval: 86400
+  Reject:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt
+    path: ./providers/rule/reject.yaml
+    interval: 86400
+  BanEasyPrivacy:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyPrivacy.yaml
+    path: ./providers/rule/BanEasyPrivacy.yaml
+    interval: 86400
+  YouTube:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/YouTube/YouTube.yaml
+    path: ./providers/rule/YouTube.yaml
+    interval: 86400
+  Google:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Google/Google.yaml
+    path: ./providers/rule/Google.yaml
+    interval: 86400
+  GoogleCN:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleCN.yaml
+    path: ./providers/rule/GoogleCN.yaml
+    interval: 86400
+  GoogleFCM:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleFCM.yaml
+    path: ./providers/rule/GoogleFCM.yaml
+    interval: 86400
+  GoogleCNProxyIP:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleCNProxyIP.yaml
+    path: ./providers/rule/GoogleCNProxyIP.yaml
+    interval: 86400
+  OneDrive:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/OneDrive.yaml
+    path: ./providers/rule/OneDrive.yaml
+    interval: 86400
+  Microsoft:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Microsoft.yaml
+    path: ./providers/rule/Microsoft.yaml
+    interval: 86400
+  ICloud:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt
+    path: ./providers/rule/icloud.yaml
+    interval: 86400
+  Apple:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt
+    path: ./providers/rule/Apple.yaml
+    interval: 86400
+  Telegram:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Telegram.yaml
+    path: ./providers/rule/Telegram.yaml
+    interval: 86400
+  Telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt
+    path: ./providers/rule/telegramcidr.yaml
+    interval: 86400
+  Netflix:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Netflix/Netflix_Classical.yaml
+    path: ./providers/rule/Netflix.yaml
+    interval: 86400
+  Niconico:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Niconico.yaml
+    path: ./providers/rule/Niconico.yaml
+    interval: 86400
+  Amazon:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Amazon.yaml
+    path: ./providers/rule/Amazon.yaml
+    interval: 86400
+  BBC:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/BBCiPlayer.yaml
+    path: ./providers/rule/BBC.yaml
+    interval: 86400
+  ProxyMedia:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyMedia.yaml
+    path: ./providers/rule/ProxyMedia.yaml
+    interval: 86400
+  Porn:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Porn.yaml
+    path: ./providers/rule/Porn.yaml
+    interval: 86400
+  Spotify:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Spotify.yaml
+    path: ./providers/rule/Spotify.yaml
+    interval: 86400
+  Steamcn:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/SteamCN/SteamCN.yaml
+    path: ./providers/rule/steamcn.yaml
+    interval: 86400
+  Steam:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Steam.yaml
+    path: ./providers/rule/Steam.yaml
+    interval: 86400
+  Epic:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Epic.yaml
+    path: ./providers/rule/Epic.yaml
+    interval: 86400
+  Sony:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Sony.yaml
+    path: ./providers/rule/Sony.yaml
+    interval: 86400
+  Xbox:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Xbox/Xbox.yaml
+    path: ./providers/rule/xbox.yaml
+    interval: 86400
+  Game:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/Kazeta-chinu/ruleset/Game.yaml
+    path: ./providers/rule/Game.yaml
+    interval: 86400
+  Bahamut:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Bahamut.yaml
+    path: ./providers/rule/Bahamut.yaml
+    interval: 86400
+  Manhua:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/manhuaren/manhua.yaml
+    path: ./providers/rule/manhua.yaml
+    interval: 86400
+  BilibiliHMT:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/BilibiliHMT.yaml
+    path: ./providers/rule/BilibiliHMT.yaml
+    interval: 86400
+  IqiyiHMT:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/IqiyiHMT.yaml
+    path: ./providers/rule/IqiyiHMT.yaml
+    interval: 86400
+  ChinaMedia:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaMedia.yaml
+    path: ./providers/rule/ChinaMedia.yaml
+    interval: 86400
+  ProxyLite:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyLite.yaml
+    path: ./providers/rule/ProxyLite.yaml
+    interval: 86400
+  ProxyGFWlist:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyGFWlist.yaml
+    path: ./providers/rule/ProxyGFWlist.yaml
+    interval: 86400
+  GFW:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt
+    path: ./providers/rule/gfw.yaml
+    interval: 86400
+  ExtraList:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/ExtraList.yaml
+    path: ./providers/rule/ExtraList.yaml
+    interval: 86400
+  Proxy:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt
+    path: ./providers/rule/proxy.yaml
+    interval: 86400
+  Tld-not-cn:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt
+    path: ./providers/rule/tld-not-cn.yaml
+    interval: 86400
+  ChinaIp:
+    type: http
+    behavior: ipcidr
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaIp.yaml
+    path: ./providers/rule/ChinaIp.yaml
+    interval: 86400
+  ChinaDomain:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaDomain.yaml
+    path: ./providers/rule/ChinaDomain.yaml
+    interval: 86400
+  ChinaCompanyIp:
+    type: http
+    behavior: ipcidr
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaCompanyIp.yaml
+    path: ./providers/rule/ChinaCompanyIp.yaml
+    interval: 86400
+  Direct:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt
+    path: ./providers/rule/direct.yaml
+    interval: 86400
+  CNcidr:
+    type: http
+    behavior: ipcidr
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt
+    path: ./providers/rule/cncidr.yaml
+    interval: 86400
+  Lancidr:
+    type: http
+    behavior: ipcidr
+    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt
+    path: ./providers/rule/lancidr.yaml
+    interval: 86400
