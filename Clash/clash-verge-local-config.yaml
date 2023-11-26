@@ -1,7 +1,7 @@
 ## 基于 clash.meta 配置，meta 文档：https://wiki.metacubex.one/
 
-# mode: rule
-# mixed-port: 7890
+mode: rule
+mixed-port: 7890
 # allow-lan: false
 # log-level: info
 # ipv6: false
@@ -30,14 +30,14 @@
 #       override-destination: true
 
 ## GEO 数据模式：true / false(默认值)
-# geodata-mode: true
+geodata-mode: true
 ## GEO 文件加载模式：standard / memconservative(默认值)
 # geodata-loader: memconservative
 ## 自定 GEO 下载地址
-# geox-url:
-#   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
-#   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
-#   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+geox-url:
+  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
 
 hosts:
   'bbs.acgrip.com': 47.240.95.103
@@ -94,12 +94,12 @@ dns:
  #  - "[240C::6666]:53"                    # 天地互连 IPv6 DNS
  #  - "[240C::6644]:53"                    # 天地互连 IPv6 DNS
  #通过特定的名称服务器查找域名
-  nameserver-policy:
-    "geosite:cn,private":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
-    'www.baidu.com': '114.114.114.114'
-    '+.internal.crop.com': '10.0.0.1'
+ #nameserver-policy:
+  # "geosite:cn,private":
+  #   - https://doh.pub/dns-query
+  #   - https://dns.alidns.com/dns-query
+  # 'www.baidu.com': '114.114.114.114'
+  # '+.internal.crop.com': '10.0.0.1'
   fallback:                                # 國外域名使用 fallback 請求 (没有被污染的DNS)
     - https://dns.google/dns-query         # Google DoH
     - https://cloudflare-dns.com/dns-query # Cloudflare DoH
@@ -288,27 +288,69 @@ tun:
   dns-hijack:
     - any:53
 
+# proxy-providers 参数锚点 方便多订阅源复用
+pvd-info: &pvd-info # 更新订阅周期 1 天
+  interval: 86400
+  # 节点状态检查
+  health-check:
+    enable: true
+    url: http://www.gstatic.com/generate_204
+    interval: 600
+
 proxy-providers:
   Subs:
     type: http
-    path: ./Proxies/Subs.yaml
-    url: ""
-    interval: 86400 # 一天
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 600
+    path: ./Providers/Proxies/Subs.yaml
+    url: ""   # 在此处填入订阅链接
+    <<: *pvd-info
   #Subs2:
   #  type: http
-  #  path: ./Proxies/Subs2.yaml
+  #  path: ./Providers/Proxies/Subs2.yaml
   #  url: ""
-  #  interval: 86400 # 一天
-  #  health-check:
-  #    enable: true
-  #    url: https://www.gstatic.com/generate_204
-  #    interval: 600
+  #  <<: *pvd-info
 
-######### 锚点 start #######
+# 使用 proxy-providers 中的节点 定义锚点
+all-proxy: &all-proxy
+  use:
+    - Subs # 引用订阅文件
+  # - Subs2
+
+######### proxy 锚点 start #######
+group-proxy:
+  &group-proxy {
+    type: select,
+    proxies:
+      [
+        🔰 节点选择,
+        🇭🇰 香港节点,
+        🇨🇳 台湾节点,
+        🇸🇬 狮城节点,
+        🇯🇵 日本节点,
+        🇺🇸 美国节点,
+        ♻️ 自动选择,
+        🚀 手动切换,
+        DIRECT,
+      ],
+  }
+
+media-proxy:
+  &media-proxy {
+    type: select,
+    proxies:
+      [
+        🎥 流媒体解锁,
+        🔰 节点选择,
+        🇭🇰 香港节点,
+        🇨🇳 台湾节点,
+        🇸🇬 狮城节点,
+        🇯🇵 日本节点,
+        🇺🇸 美国节点,
+        ♻️ 自动选择,
+        🚀 手动切换,
+        DIRECT,
+      ],
+  }
+
 SELECTL_PROXIES:
   &SELECTL_PROXIES {
     type: select,
@@ -317,14 +359,15 @@ SELECTL_PROXIES:
         DIRECT,
         🔰 节点选择,
         🇭🇰 香港节点,
-        🇹🇼 台湾节点,
-        🇸🇬 新加坡节点,
+        🇨🇳 台湾节点,
+        🇸🇬 狮城节点,
         🇯🇵 日本节点,
         🇺🇸 美国节点,
         ♻️ 自动选择,
         🚀 手动切换,
       ],
   }
+
 
 URLTEST:
   &URLTEST {
@@ -336,14 +379,35 @@ URLTEST:
   }
 ######### 锚点 end #######
 
+# proxies:
+  # - name: "WARP"
+  #   type: wireguard
+  #   server: engage.cloudflareclient.com
+  #   port: 2408
+  #   ip: "172.16.0.2/32"
+  #   ipv6: "2606::1/128"        # 自行替换
+  #   private-key: "private-key" # 自行替换
+  #   public-key: "public-key"   # 自行替换
+  #   udp: true
+  #   reserved: "abba"           # 自行替换
+  #   mtu: 1280
+  #   dialer-proxy: "dns"
+  #   remote-dns-resolve: true
+  #   dns:
+  #     - https://dns.cloudflare.com/dns-query
+# 定义自建代理锚点
+# local-proxy: &local-proxy
+  # - ss1
+  # - ss2
+
 proxy-groups:
   - name: 🔰 节点选择
     type: select
     proxies:
       - 🔄 自动回退
       - 🇭🇰 香港节点
-      - 🇹🇼 台湾节点
-      - 🇸🇬 新加坡节点
+      - 🇨🇳 台湾节点
+      - 🇸🇬 狮城节点
       - 🇯🇵 日本节点
       - 🇺🇸 美国节点
       - ♻️ 自动选择
@@ -353,26 +417,23 @@ proxy-groups:
     <<: *URLTEST
     use:
       - Subs
-      #- Subs2
+    # - Subs2
 
   - name: 🚀 手动切换
-    type: select
-    use:
-      - Subs
-      #- Subs2
+    <<: *all-proxy
     exclude-filter: test|特殊|时期|重置|到期|剩余流量|时间|域名|官网|网站|网址|产品|失联|节点名称|群|TG|最新|更新|订阅|测速|：
 
   - name: 🎞 PT
     <<: *SELECTL_PROXIES
 
   - name: 📲 Telegram
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 📹 YouTube
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 📢 谷歌服务
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: ☁ OneDrive
     <<: *SELECTL_PROXIES
@@ -387,61 +448,29 @@ proxy-groups:
     <<: *SELECTL_PROXIES
 
   - name: 🎥 NETFLIX
-    type: select
-    proxies:
-      - 🎥 流媒体解锁
-      - 🔰 节点选择
-      - 🇭🇰 香港节点
-      - 🇹🇼 台湾节点
-      - 🇸🇬 新加坡节点
-      - 🇯🇵 日本节点
-      - 🇺🇸 美国节点
-      - ♻️ 自动选择
-      - 🚀 手动切换
-      - DIRECT
+    <<: *media-proxy
 
   - name: 📽 Niconico
-    type: select
-    proxies:
-      - 🎥 流媒体解锁
-      - 🔰 节点选择
-      - 🇭🇰 香港节点
-      - 🇹🇼 台湾节点
-      - 🇸🇬 新加坡节点
-      - 🇯🇵 日本节点
-      - 🇺🇸 美国节点
-      - ♻️ 自动选择
-      - 🚀 手动切换
-      - DIRECT
+    <<: *media-proxy
   
   - name: 🎬 国外媒体
     type: select
-    proxies:
-      - 🎥 流媒体解锁
-      - 🔰 节点选择
-      - 🇭🇰 香港节点
-      - 🇹🇼 台湾节点
-      - 🇸🇬 新加坡节点
-      - 🇯🇵 日本节点
-      - 🇺🇸 美国节点
-      - ♻️ 自动选择
-      - 🚀 手动切换
-      - DIRECT
+    <<: *media-proxy
 
   - name: 🍖 Porn
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 🎧 Spotify
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 🎮 游戏平台
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
   
   - name: 🎞 港台媒体
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 📔 港台漫画
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
   
   - name: 🌏 出海媒体
     <<: *SELECTL_PROXIES
@@ -450,7 +479,7 @@ proxy-groups:
     <<: *SELECTL_PROXIES
 
   - name: 🌍 国外网站
-    <<: *SELECTL_PROXIES
+    <<: *group-proxy
 
   - name: 🛑 广告净化
     type: select
@@ -476,51 +505,46 @@ proxy-groups:
     interval: 600
     proxies:
       - 🇭🇰 香港节点
-      - 🇹🇼 台湾节点
-      - 🇸🇬 新加坡节点
+      - 🇨🇳 台湾节点
+      - 🇸🇬 狮城节点
       - 🇯🇵 日本节点
       - 🇺🇸 美国节点
 
+  # 代理转发链 relay 示例 新版本推荐使用更快速的 tunnels 模式
+  # proxies 中不应该包含 relay 节点 不支持 UDP
+  # 流量示意 clash <-> vmess <-> ss1 <-> 互联网 (这样是为了用自建节点落地解决机场跳 IP 问题)
+  # - name: 🔁 relay
+  #   type: relay
+  #   proxies: # !!!注意proxies中不能有relay节点
+  #     - vmess
+  #     - ss1
+
+  #- name: 🔧 自定节点
+  #  type: select
+  #  proxies: *local-proxy
+
   - name: 🇭🇰 香港节点
-    type: select
-    use:
-      - Subs
-      #- Subs2
+    <<: *all-proxy
     filter: (?i)HK|香港|港|Hong Kong|HONG|Hong|HGC
 
-  - name: 🇹🇼 台湾节点
-    type: select
-    use:
-      - Subs
-      #- Subs2
+  - name: 🇨🇳 台湾节点
+    <<: *all-proxy
     filter: (?i)TW|台湾|台|Taiwan|新北|彰化|Tai
 
-  - name: 🇸🇬 新加坡节点
-    type: select
-    use:
-      - Subs
-      #- Subs2
+  - name: 🇸🇬 狮城节点
+    <<: *all-proxy
     filter: (?i)SG|新加坡|坡|Singapore|狮城|Singa
 
   - name: 🇯🇵 日本节点
-    type: select
-    use:
-      - Subs
-      #- Subs2
+    <<: *all-proxy
     filter: (?i)JP|Jap|日本|日|Japan|川日|东京|大阪|泉日|埼玉|沪日|深日
 
   - name: 🇺🇸 美国节点
-    type: select
-    use:
-      - Subs
-      #- Subs2
+    <<: *all-proxy
     filter: (?i)US|美国|美|United States|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥
 
   - name: 🎥 流媒体解锁
-    type: select
-    use:
-      - Subs
-      #- Subs2
+    <<: *all-proxy
     filter: \[M\]|NF|解锁|Netflix|NETFLIX|netflix|奈飞|奶飞|Amazon|amazon|Nico|nico|BBC|bbc
 
 rules:
@@ -587,311 +611,311 @@ rule-providers:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/PT/Pt.yaml
-    path: ./providers/rule/pt.yaml
+    path: ./Providers/Ruleset/pt.yaml
     interval: 86400
   Download:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/Download.yaml
-    path: ./providers/rule/Download.yaml
+    path: ./Providers/Ruleset/Download.yaml
     interval: 86400
   Applications:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt
-    path: ./providers/rule/applications.yaml
+    path: ./Providers/Ruleset/applications.yaml
     interval: 86400
   Private:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt
-    path: ./providers/rule/private.yaml
+    path: ./Providers/Ruleset/private.yaml
     interval: 86400
   UnBan:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/UnBan.yaml
-    path: ./providers/rule/UnBan.yaml
+    path: ./Providers/Ruleset/UnBan.yaml
     interval: 86400
   BanAD:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanAD.yaml
-    path: ./providers/rule/BanAD.yaml
+    path: ./Providers/Ruleset/BanAD.yaml
     interval: 86400
   BanProgramAD:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanProgramAD.yaml
-    path: ./providers/rule/BanProgramAD.yaml
+    path: ./Providers/Ruleset/BanProgramAD.yaml
     interval: 86400
   BanEasyList:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyList.yaml
-    path: ./providers/rule/BanEasyList.yaml
+    path: ./Providers/Ruleset/BanEasyList.yaml
     interval: 86400
   BanEasyListChina:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyListChina.yaml
-    path: ./providers/rule/BanEasyListChina.yaml
+    path: ./Providers/Ruleset/BanEasyListChina.yaml
     interval: 86400
   Reject:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/reject.txt
-    path: ./providers/rule/reject.yaml
+    path: ./Providers/Ruleset/reject.yaml
     interval: 86400
   BanEasyPrivacy:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/BanEasyPrivacy.yaml
-    path: ./providers/rule/BanEasyPrivacy.yaml
+    path: ./Providers/Ruleset/BanEasyPrivacy.yaml
     interval: 86400
   YouTube:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/YouTube/YouTube.yaml
-    path: ./providers/rule/YouTube.yaml
+    path: ./Providers/Ruleset/YouTube.yaml
     interval: 86400
   Google:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Google/Google.yaml
-    path: ./providers/rule/Google.yaml
+    path: ./Providers/Ruleset/Google.yaml
     interval: 86400
   GoogleCN:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleCN.yaml
-    path: ./providers/rule/GoogleCN.yaml
+    path: ./Providers/Ruleset/GoogleCN.yaml
     interval: 86400
   GoogleFCM:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleFCM.yaml
-    path: ./providers/rule/GoogleFCM.yaml
+    path: ./Providers/Ruleset/GoogleFCM.yaml
     interval: 86400
   GoogleCNProxyIP:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/GoogleCNProxyIP.yaml
-    path: ./providers/rule/GoogleCNProxyIP.yaml
+    path: ./Providers/Ruleset/GoogleCNProxyIP.yaml
     interval: 86400
   OneDrive:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/OneDrive.yaml
-    path: ./providers/rule/OneDrive.yaml
+    path: ./Providers/Ruleset/OneDrive.yaml
     interval: 86400
   Microsoft:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Microsoft.yaml
-    path: ./providers/rule/Microsoft.yaml
+    path: ./Providers/Ruleset/Microsoft.yaml
     interval: 86400
   ICloud:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/icloud.txt
-    path: ./providers/rule/icloud.yaml
+    path: ./Providers/Ruleset/icloud.yaml
     interval: 86400
   Apple:
     type: http
-    behavior: classical
+    behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt
-    path: ./providers/rule/Apple.yaml
+    path: ./Providers/Ruleset/Apple.yaml
     interval: 86400
   Telegram:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Telegram.yaml
-    path: ./providers/rule/Telegram.yaml
+    path: ./Providers/Ruleset/Telegram.yaml
     interval: 86400
   Telegramcidr:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt
-    path: ./providers/rule/telegramcidr.yaml
+    path: ./Providers/Ruleset/telegramcidr.yaml
     interval: 86400
   Netflix:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Netflix/Netflix_Classical.yaml
-    path: ./providers/rule/Netflix.yaml
+    path: ./Providers/Ruleset/Netflix.yaml
     interval: 86400
   Niconico:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Niconico.yaml
-    path: ./providers/rule/Niconico.yaml
+    path: ./Providers/Ruleset/Niconico.yaml
     interval: 86400
   Amazon:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Amazon.yaml
-    path: ./providers/rule/Amazon.yaml
+    path: ./Providers/Ruleset/Amazon.yaml
     interval: 86400
   BBC:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/BBCiPlayer.yaml
-    path: ./providers/rule/BBC.yaml
+    path: ./Providers/Ruleset/BBC.yaml
     interval: 86400
   ProxyMedia:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyMedia.yaml
-    path: ./providers/rule/ProxyMedia.yaml
+    path: ./Providers/Ruleset/ProxyMedia.yaml
     interval: 86400
   Porn:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Porn.yaml
-    path: ./providers/rule/Porn.yaml
+    path: ./Providers/Ruleset/Porn.yaml
     interval: 86400
   Spotify:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Spotify.yaml
-    path: ./providers/rule/Spotify.yaml
+    path: ./Providers/Ruleset/Spotify.yaml
     interval: 86400
   Steamcn:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/SteamCN/SteamCN.yaml
-    path: ./providers/rule/steamcn.yaml
+    path: ./Providers/Ruleset/steamcn.yaml
     interval: 86400
   Steam:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Steam.yaml
-    path: ./providers/rule/Steam.yaml
+    path: ./Providers/Ruleset/Steam.yaml
     interval: 86400
   Epic:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Epic.yaml
-    path: ./providers/rule/Epic.yaml
+    path: ./Providers/Ruleset/Epic.yaml
     interval: 86400
   Sony:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Sony.yaml
-    path: ./providers/rule/Sony.yaml
+    path: ./Providers/Ruleset/Sony.yaml
     interval: 86400
   Xbox:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Xbox/Xbox.yaml
-    path: ./providers/rule/xbox.yaml
+    path: ./Providers/Ruleset/xbox.yaml
     interval: 86400
   Game:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/Kazeta-chinu/ruleset/Game.yaml
-    path: ./providers/rule/Game.yaml
+    path: ./Providers/Ruleset/Game.yaml
     interval: 86400
   Bahamut:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Bahamut.yaml
-    path: ./providers/rule/Bahamut.yaml
+    path: ./Providers/Ruleset/Bahamut.yaml
     interval: 86400
   Manhua:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/manhuaren/manhua.yaml
-    path: ./providers/rule/manhua.yaml
+    path: ./Providers/Ruleset/manhua.yaml
     interval: 86400
   BilibiliHMT:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/BilibiliHMT.yaml
-    path: ./providers/rule/BilibiliHMT.yaml
+    path: ./Providers/Ruleset/BilibiliHMT.yaml
     interval: 86400
   IqiyiHMT:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/IqiyiHMT.yaml
-    path: ./providers/rule/IqiyiHMT.yaml
+    path: ./Providers/Ruleset/IqiyiHMT.yaml
     interval: 86400
   ChinaMedia:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaMedia.yaml
-    path: ./providers/rule/ChinaMedia.yaml
+    path: ./Providers/Ruleset/ChinaMedia.yaml
     interval: 86400
   ProxyLite:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyLite.yaml
-    path: ./providers/rule/ProxyLite.yaml
+    path: ./Providers/Ruleset/ProxyLite.yaml
     interval: 86400
   ProxyGFWlist:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ProxyGFWlist.yaml
-    path: ./providers/rule/ProxyGFWlist.yaml
+    path: ./Providers/Ruleset/ProxyGFWlist.yaml
     interval: 86400
   GFW:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/gfw.txt
-    path: ./providers/rule/gfw.yaml
+    path: ./Providers/Ruleset/gfw.yaml
     interval: 86400
   ExtraList:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/ExtraList.yaml
-    path: ./providers/rule/ExtraList.yaml
+    path: ./Providers/Ruleset/ExtraList.yaml
     interval: 86400
   Proxy:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/proxy.txt
-    path: ./providers/rule/proxy.yaml
+    path: ./Providers/Ruleset/proxy.yaml
     interval: 86400
   Tld-not-cn:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/tld-not-cn.txt
-    path: ./providers/rule/tld-not-cn.yaml
+    path: ./Providers/Ruleset/tld-not-cn.yaml
     interval: 86400
   ChinaIp:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaIp.yaml
-    path: ./providers/rule/ChinaIp.yaml
+    path: ./Providers/Ruleset/ChinaIp.yaml
     interval: 86400
   ChinaDomain:
     type: http
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaDomain.yaml
-    path: ./providers/rule/ChinaDomain.yaml
+    path: ./Providers/Ruleset/ChinaDomain.yaml
     interval: 86400
   ChinaCompanyIp:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaCompanyIp.yaml
-    path: ./providers/rule/ChinaCompanyIp.yaml
+    path: ./Providers/Ruleset/ChinaCompanyIp.yaml
     interval: 86400
   Direct:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt
-    path: ./providers/rule/direct.yaml
+    path: ./Providers/Ruleset/direct.yaml
     interval: 86400
   CNcidr:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt
-    path: ./providers/rule/cncidr.yaml
+    path: ./Providers/Ruleset/cncidr.yaml
     interval: 86400
   Lancidr:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt
-    path: ./providers/rule/lancidr.yaml
+    path: ./Providers/Ruleset/lancidr.yaml
     interval: 86400
