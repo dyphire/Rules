@@ -444,7 +444,7 @@ proxy-groups:
 
   - name: ☁ OneDrive
     <<: *SELECTL_PROXIES
-  
+
   - name: Ⓜ️ 微软服务
     <<: *SELECTL_PROXIES
 
@@ -457,28 +457,28 @@ proxy-groups:
   - name: 🎥 NETFLIX
     <<: *media-proxy
 
-  - name: 📽 Niconico
-    <<: *media-proxy
-  
-  - name: 🎬 国外媒体
-    type: select
-    <<: *media-proxy
-
   - name: 🍖 Porn
     <<: *group-proxy
 
   - name: 🎧 Spotify
     <<: *group-proxy
 
+  - name: 🤖 OpenAI
+    <<: *group-proxy
+
   - name: 🎮 游戏平台
     <<: *group-proxy
-  
+
+  - name: 🎬 国外媒体
+    type: select
+    <<: *media-proxy
+
   - name: 🎞 港台媒体
     <<: *group-proxy
 
   - name: 📔 港台漫画
     <<: *group-proxy
-  
+
   - name: 🌏 出海媒体
     <<: *SELECTL_PROXIES
 
@@ -583,21 +583,23 @@ rules:
   - RULE-SET,ICloud,☁ iCloud # iCloud 域名列表
   - RULE-SET,Apple,🍎 苹果服务 # Apple 在中国大陆可直连的域名列表
   - RULE-SET,Telegram,📲 Telegram
-  - RULE-SET,Telegramcidr,📲 Telegram # Telegram 使用的 IP 地址列表
   - RULE-SET,Netflix,🎥 NETFLIX
-  - RULE-SET,Niconico,📽 Niconico
+  - RULE-SET,Niconico,🎬 国外媒体
   - RULE-SET,Amazon,🎬 国外媒体
   - RULE-SET,BBC,🎬 国外媒体
   - RULE-SET,ProxyMedia,🎬 国外媒体
   - RULE-SET,Porn,🍖 Porn
   - RULE-SET,Spotify,🎧 Spotify
+  - RULE-SET,OpenAI,🤖 OpenAI
   - RULE-SET,Steamcn,🎯 全球直连
   - RULE-SET,Steam,🎮 游戏平台
   - RULE-SET,Epic,🎮 游戏平台
   - RULE-SET,Sony,🎮 游戏平台
+  - RULE-SET,Nintendo,🎮 游戏平台
   - RULE-SET,Xbox,🎮 游戏平台
   - RULE-SET,Game,🎮 游戏平台
   - RULE-SET,Bahamut,🎞 港台媒体
+  - RULE-SET,KKTV,🎞 港台媒体
   - RULE-SET,Manhua,📔 港台漫画
   - RULE-SET,BilibiliHMT,🌏 出海媒体
   - RULE-SET,IqiyiHMT,🌏 出海媒体
@@ -688,13 +690,13 @@ rule-providers:
   YouTube:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/YouTube/YouTube.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/YouTube/YouTube_No_Resolve.yaml
     path: ./Providers/Ruleset/YouTube.yaml
     interval: 86400
   Google:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Google/Google.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Google/Google_No_Resolve.yaml
     path: ./Providers/Ruleset/Google.yaml
     interval: 86400
   GoogleCN:
@@ -742,19 +744,13 @@ rule-providers:
   Telegram:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Telegram.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Telegram/Telegram_No_Resolve.yaml
     path: ./Providers/Ruleset/Telegram.yaml
-    interval: 86400
-  Telegramcidr:
-    type: http
-    behavior: ipcidr
-    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/telegramcidr.txt
-    path: ./Providers/Ruleset/telegramcidr.yaml
     interval: 86400
   Netflix:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Netflix/Netflix_Classical.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Netflix/Netflix_Classical_No_Resolve.yaml
     path: ./Providers/Ruleset/Netflix.yaml
     interval: 86400
   Niconico:
@@ -790,8 +786,14 @@ rule-providers:
   Spotify:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Spotify.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Spotify/Spotify_No_Resolve.yaml
     path: ./Providers/Ruleset/Spotify.yaml
+    interval: 86400
+  OpenAI:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/OpenAI/OpenAI.yaml
+    path: ./Providers/Ruleset/OpenAI.yaml
     interval: 86400
   Steamcn:
     type: http
@@ -802,20 +804,26 @@ rule-providers:
   Steam:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Steam.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Steam/Steam.yaml
     path: ./Providers/Ruleset/Steam.yaml
     interval: 86400
   Epic:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Epic.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Epic/Epic.yaml
     path: ./Providers/Ruleset/Epic.yaml
     interval: 86400
   Sony:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Sony.yaml
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Sony/Sony.yaml
     path: ./Providers/Ruleset/Sony.yaml
+    interval: 86400
+  Nintendo:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/Nintendo/Nintendo.yaml
+    path: ./Providers/Ruleset/Nintendo.yaml
     interval: 86400
   Xbox:
     type: http
@@ -834,6 +842,12 @@ rule-providers:
     behavior: classical
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Bahamut.yaml
     path: ./Providers/Ruleset/Bahamut.yaml
+    interval: 86400
+  KKTV:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/blackmatrix7/ios_rule_script/rule/Clash/KKTV/KKTV.yaml
+    path: ./Providers/Ruleset/KKTV.yaml
     interval: 86400
   Manhua:
     type: http
