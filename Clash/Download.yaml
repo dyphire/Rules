@@ -9,7 +9,6 @@ payload:
   - DOMAIN-KEYWORD,peer_id=
   - DOMAIN-KEYWORD,announce
   - DOMAIN-KEYWORD,bt_key
-  - DOMAIN-KEYWORD,magnet:
   - DOMAIN-SUFFIX,smtp
   - DOMAIN-KEYWORD,aria2
  
