@@ -561,8 +561,8 @@ rules:
   - RULE-SET,PT,🎞 PT
   - RULE-SET,Download,🎯 全球直连
   - RULE-SET,Applications,🎯 全球直连 # 需要直连的常见软件列表
+  - RULE-SET,LocalAreaNetwork,DIRECT # 本地/局域网地址列表
   - RULE-SET,Private,DIRECT # 私有网络专用域名列表
-  - RULE-SET,UnBan,🛑 广告净化
   - RULE-SET,BanAD,🛑 广告净化
   - RULE-SET,BanProgramAD,🛑 广告净化
   - RULE-SET,BanEasyList,🛑 广告净化
@@ -635,17 +635,17 @@ rule-providers:
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt
     path: ./Providers/Ruleset/applications.yaml
     interval: 86400
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/LocalAreaNetwork.yaml
+    path: ./Providers/Ruleset/LocalAreaNetwork.yaml
+    interval: 86400
   Private:
     type: http
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt
     path: ./Providers/Ruleset/private.yaml
-    interval: 86400
-  UnBan:
-    type: http
-    behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/UnBan.yaml
-    path: ./Providers/Ruleset/UnBan.yaml
     interval: 86400
   BanAD:
     type: http
