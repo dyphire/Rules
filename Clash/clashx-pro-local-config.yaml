@@ -580,10 +580,6 @@ rules:
   - RULE-SET,Apple,🍎 苹果服务 # Apple 在中国大陆可直连的域名列表
   - RULE-SET,Telegram,📲 Telegram
   - RULE-SET,Netflix,🎥 NETFLIX
-  - RULE-SET,Niconico,🎬 国外媒体
-  - RULE-SET,Amazon,🎬 国外媒体
-  - RULE-SET,BBC,🎬 国外媒体
-  - RULE-SET,ProxyMedia,🎬 国外媒体
   - RULE-SET,Porn,🍖 Porn
   - RULE-SET,Spotify,🎧 Spotify
   - RULE-SET,OpenAI,🤖 OpenAI
@@ -600,6 +596,10 @@ rules:
   - RULE-SET,BilibiliHMT,🌏 出海媒体
   - RULE-SET,IqiyiHMT,🌏 出海媒体
   - RULE-SET,ChinaMedia,🌏 国内媒体
+  - RULE-SET,Niconico,🎬 国外媒体
+  - RULE-SET,Amazon,🎬 国外媒体
+  - RULE-SET,BBC,🎬 国外媒体
+  - RULE-SET,ProxyMedia,🎬 国外媒体
   - RULE-SET,ProxyLite,🌍 国外网站
   - RULE-SET,ProxyGFWlist,🌍 国外网站
   - RULE-SET,GFW,🌍 国外网站 # GFWList 域名列表
