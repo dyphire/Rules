@@ -781,7 +781,7 @@ rule-providers:
   Porn:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Porn.yaml
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/Porn.yaml
     path: ./Providers/Ruleset/Porn.yaml
     interval: 86400
   Spotify:
