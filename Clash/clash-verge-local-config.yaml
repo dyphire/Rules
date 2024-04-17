@@ -739,7 +739,7 @@ rule-providers:
   Apple:
     type: http
     behavior: domain
-    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/apple.txt
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/Ruleset/Apple.yaml
     path: ./Providers/Ruleset/Apple.yaml
     interval: 86400
   Telegram:
