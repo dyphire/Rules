@@ -8,8 +8,16 @@ tcp-concurrent: true
 # allow-lan: false
 # log-level: info
 # secret: "在此修改访问令牌"
-# external-controller: 0.0.0.0:9090
-# external-ui: /opt/yacd/
+# 外部控制 API 监听地址
+external-controller: 127.0.0.1:9090
+# 外部用户界面
+external-ui: ui             # /path/to/ui/folder
+# 自定义外部用户界面名字
+# external-ui-name: xd      # 合并为 external-ui/xd
+# 自定义外部用户界面下载地址
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+# 自定义外部资源下载时使用的的 UA，meta 内核默认为 clash.meta
+# global-ua: clash.meta
 
 ## 进程匹配模式：always/strict(默认值)/off(路由器推荐此值)
 # find-process-mode: strict
