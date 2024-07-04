@@ -1,3 +1,0 @@
-
-DOMAIN,bbs.acgrip.com
-DOMAIN-SUFFIX,vcb-s.com
