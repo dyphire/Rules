@@ -131,8 +131,7 @@ payload:
   - DOMAIN-SUFFIX,xmsl.org
   - DOMAIN-SUFFIX,9521732.xyz
   - DOMAIN-SUFFIX,aca.best
-  - DOMAIN-SUFFIX,pilipiliultra.top
-  - DOMAIN-SUFFIX,pilipiliultra.com
+  - DOMAIN-SUFFIX,pilipili.club
   - DOMAIN-SUFFIX,polodns.xyz
   - DOMAIN-SUFFIX,nijigem.by
   - DOMAIN-SUFFIX,semby.ink
@@ -151,6 +150,7 @@ payload:
   - DOMAIN-SUFFIX,stream3.misakaf.org
   - DOMAIN-SUFFIX,stream4.misakaf.org
   - DOMAIN-SUFFIX,stream_pilipili.misakaf.org
+  - DOMAIN-SUFFIX,pilipili.misakaf.org
   - DOMAIN-SUFFIX,niceduck.me
   - DOMAIN-SUFFIX,niceduck.lol
   - DOMAIN-KEYWORD,emby
