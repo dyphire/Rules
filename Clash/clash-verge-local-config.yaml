@@ -54,11 +54,8 @@ geox-url:
   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
 
 hosts:
-  'bbs.acgrip.com': 47.240.95.103
   'dmhy.org': 104.25.27.31
   '*.dmhy.org': 104.25.27.31
-  'hdchina.org': 104.20.9.218
-  '*.hdchina.org': 104.20.9.218
   '*.m-team.cc': 104.26.13.50
 
 dns:
@@ -111,11 +108,8 @@ dns:
  #  - "[240C::6644]:53"                    # 天地互连 IPv6 DNS
  #通过特定的名称服务器查找域名
   nameserver-policy:
-    'bbs.acgrip.com': 47.240.95.103
     'dmhy.org': 104.25.27.31
     '*.dmhy.org': 104.25.27.31
-    'hdchina.org': 104.20.9.218
-    '*.hdchina.org': 104.20.9.218
     '*.m-team.cc': 104.26.13.50
     "geosite:cn,private":
       - https://doh.pub/dns-query
