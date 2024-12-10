@@ -589,6 +589,7 @@ rules:
   - RULE-SET,Applications,🎯 全球直连 # 需要直连的常见软件列表
   - RULE-SET,LocalAreaNetwork,DIRECT # 本地/局域网地址列表
   - RULE-SET,Private,DIRECT # 私有网络专用域名列表
+  - RULE-SET,AWAvenueAds,🛑 广告净化
   - RULE-SET,BanAD,🛑 广告净化
   - RULE-SET,BanProgramAD,🛑 广告净化
   - RULE-SET,BanEasyList,🛑 广告净化
@@ -672,6 +673,12 @@ rule-providers:
     behavior: domain
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/private.txt
     path: ./Providers/Ruleset/private.yaml
+    interval: 86400
+  AWAvenueAds:
+    type: http
+    behavior: domain
+    url: https://fastly.jsdelivr.net/gh/TG-Twilight/AWAvenue-Ads-Rule@main/Filters/AWAvenue-Ads-Rule-Clash.yaml
+    path: ./Providers/Ruleset/AWAvenueAds.yaml
     interval: 86400
   BanAD:
     type: http
