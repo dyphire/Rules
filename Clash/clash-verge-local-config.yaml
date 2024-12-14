@@ -30,8 +30,12 @@ profile:
   # 储存 fakeip 映射表，域名再次发生连接时，使用原有映射地址
   store-fake-ip: true
 
+##域名嗅探
 sniffer:
   enable: true
+  #force-dns-mapping: true
+  #parse-pure-ip: true
+  #override-destination: false
   sniff:
     HTTP:
       ports: [80, 8080-8880]
@@ -41,7 +45,17 @@ sniffer:
     QUIC:
       ports: [443, 8443]
   skip-domain:
-    - "Mijia Cloud"
+    - 'Mijia Cloud'
+    - 'dlg.io.mi.com'
+    - '+.apple.com'
+  force-domain:
+  # - '+'
+    - 'google.com'
+    - +.v2ex.com
+  skip-src-address:
+    - 192.168.0.3/32
+  skip-dst-address:
+    - 192.168.0.3/32
 
 ## GEO 数据模式：true / false(默认值)
 geodata-mode: true
@@ -52,6 +66,7 @@ geox-url:
   geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
   geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
   mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+  asn: "https://fastly.jsdelivr.net/gh/xishang0128/geoip@release/GeoLite2-ASN.mmdb"
 
 hosts:
   'dmhy.org': 104.25.27.31
