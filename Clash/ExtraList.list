@@ -1,6 +1,3 @@
-
-DOMAIN,bbs.acgrip.com
-DOMAIN-SUFFIX,vcb-s.com
 #Emby
 DOMAIN-SUFFIX,emby.nexitally.com
 DOMAIN-SUFFIX,emby.cjpc.cc
@@ -132,6 +129,8 @@ DOMAIN-SUFFIX,xmsl.org
 DOMAIN-SUFFIX,9521732.xyz
 DOMAIN-SUFFIX,aca.best
 DOMAIN-SUFFIX,pilipili.club
+DOMAIN-SUFFIX,streamer.pilipiliultra.com
+DOMAIN-SUFFIX,pilipiliultra.com
 DOMAIN-SUFFIX,polodns.xyz
 DOMAIN-SUFFIX,nijigem.by
 DOMAIN-SUFFIX,semby.ink
@@ -153,4 +152,16 @@ DOMAIN-SUFFIX,stream_pilipili.misakaf.org
 DOMAIN-SUFFIX,pilipili.misakaf.org
 DOMAIN-SUFFIX,niceduck.me
 DOMAIN-SUFFIX,niceduck.lol
+DOMAIN-SUFFIX,jmsuper.com
+DOMAIN-SUFFIX,mini.jmsuper.com
+DOMAIN-SUFFIX,nano.jmsuper.com
+DOMAIN-SUFFIX,as174.de
+DOMAIN-SUFFIX,hxd.as174.de
+DOMAIN-SUFFIX,emby.as174.de
+DOMAIN-SUFFIX,cf.bili.rip
+DOMAIN-SUFFIX,misakaf.org
+DOMAIN-SUFFIX,aca.misakaf.org
+DOMAIN-SUFFIX,tanhuatv.site
+DOMAIN-SUFFIX,vcb-s.com
+DOMAIN-SUFFIX,bbs.acgrip.com
 DOMAIN-KEYWORD,emby
