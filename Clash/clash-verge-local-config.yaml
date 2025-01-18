@@ -599,11 +599,13 @@ proxy-groups:
 rules:
   - DOMAIN,clash.razord.top,DIRECT # Clash 面板
   - DOMAIN,yacd.haishan.me,DIRECT # Clash 面板
-  - RULE-SET,PT,🎞 PT
-  - RULE-SET,Download,🎯 全球直连
-  - RULE-SET,Applications,🎯 全球直连 # 需要直连的常见软件列表
+  - DOMAIN,board.zash.run.place,DIRECT # Clash 面板
   - RULE-SET,LocalAreaNetwork,DIRECT # 本地/局域网地址列表
   - RULE-SET,Private,DIRECT # 私有网络专用域名列表
+  - RULE-SET,PT,🎞 PT
+  - RULE-SET,UnBan,🎯 全球直连
+  - RULE-SET,Download,🎯 全球直连
+  - RULE-SET,Applications,🎯 全球直连 # 需要直连的常见软件列表
   - RULE-SET,AWAvenueAds,🛑 广告净化
   - RULE-SET,BanAD,🛑 广告净化
   - RULE-SET,BanProgramAD,🛑 广告净化
@@ -648,12 +650,10 @@ rules:
   - RULE-SET,GFW,🌍 国外网站 # GFWList 域名列表
   - RULE-SET,Proxy,🌍 国外网站 # 代理域名列表
   - RULE-SET,Tld-not-cn,🌍 国外网站 # 非中国大陆使用的顶级域名列表
-  - RULE-SET,ChinaDomain,DIRECT
-  - RULE-SET,ChinaCompanyIp,DIRECT
-  - RULE-SET,Direct,DIRECT # 直连域名列表
-  - RULE-SET,Lancidr,DIRECT # 局域网 IP 及保留 IP 地址列表
-  - RULE-SET,ChinaIp,DIRECT # 中国大陆 IP 地址列表
-  - RULE-SET,CNcidr,DIRECT # 中国大陆 IP 地址列表
+  - RULE-SET,ChinaDomain,🎯 全球直连
+  - RULE-SET,ChinaCompanyIp,🎯 全球直连
+  - RULE-SET,ChinaIp,🎯 全球直连 # 中国大陆 IP 地址列表
+  - RULE-SET,CNcidr,🎯 全球直连 # 中国大陆 IP 地址列表
   - GEOIP,LAN,DIRECT
   - GEOIP,CN,DIRECT
   - MATCH,🐟 漏网之鱼
@@ -662,8 +662,14 @@ rule-providers:
   PT:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/PT/Pt.yaml
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/Pt.yaml
     path: ./Providers/Ruleset/pt.yaml
+    interval: 86400
+  UnBan:
+    type: http
+    behavior: classical
+    url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/UnBan.yaml
+    path: ./Providers/Ruleset/UnBan.yaml
     interval: 86400
   Download:
     type: http
@@ -896,7 +902,7 @@ rule-providers:
   Manhua:
     type: http
     behavior: classical
-    url: https://fastly.jsdelivr.net/gh/dyphire/Rules@main/manhuaren/manhua.yaml
+    url: https://fastly.jsdelivr.net/gh/dyphire/Rules/Clash/manhua.yaml
     path: ./Providers/Ruleset/manhua.yaml
     interval: 86400
   BilibiliHMT:
@@ -971,21 +977,9 @@ rule-providers:
     url: https://fastly.jsdelivr.net/gh/dyphire/ACL4SSR/Clash/Providers/ChinaCompanyIp.yaml
     path: ./Providers/Ruleset/ChinaCompanyIp.yaml
     interval: 86400
-  Direct:
-    type: http
-    behavior: domain
-    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/direct.txt
-    path: ./Providers/Ruleset/direct.yaml
-    interval: 86400
   CNcidr:
     type: http
     behavior: ipcidr
     url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/cncidr.txt
     path: ./Providers/Ruleset/cncidr.yaml
-    interval: 86400
-  Lancidr:
-    type: http
-    behavior: ipcidr
-    url: https://fastly.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/lancidr.txt
-    path: ./Providers/Ruleset/lancidr.yaml
     interval: 86400
