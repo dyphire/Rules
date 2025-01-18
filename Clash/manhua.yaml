@@ -1,0 +1,16 @@
+payload:
+# manhuaren
+  - DOMAIN-SUFFIX,cdnmanhua.net
+  - DOMAIN-SUFFIX,manhuaren.com
+  - DOMAIN-SUFFIX,cdndm5.com
+  - DOMAIN-SUFFIX,dm5.com
+# manhuagui
+  - DOMAIN-SUFFIX,hamreus.com
+  - DOMAIN-SUFFIX,manhuagui.com
+# copymanga
+  - DOMAIN-SUFFIX,copymanga.tv
+  - DOMAIN-SUFFIX,mangafunc.fun
+  - DOMAIN-SUFFIX,mangafuna.xyz
+# cocomanhua
+  - DOMAIN-SUFFIX,cocomanhua.com
+  - DOMAIN-SUFFIX,manhuadb.com
