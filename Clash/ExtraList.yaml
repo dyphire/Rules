@@ -131,6 +131,9 @@ payload:
   - DOMAIN-SUFFIX,aca.best
   - DOMAIN-SUFFIX,pilipili.club
   - DOMAIN-SUFFIX,streamer.pilipiliultra.com
+  - DOMAIN-SUFFIX,emby-direct.pilipiliultra.com
+  - DOMAIN-SUFFIX,emby.pilipiliultra.com
+  - DOMAIN-SUFFIX,manga.pilipiliultra.com
   - DOMAIN-SUFFIX,pilipiliultra.com
   - DOMAIN-SUFFIX,polodns.xyz
   - DOMAIN-SUFFIX,nijigem.by
