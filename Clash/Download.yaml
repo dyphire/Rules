@@ -18,6 +18,7 @@ payload:
   - DOMAIN-KEYWORD,XLLiveUD
 
   #Download
+  - PROCESS-NAME,ssh
   - PROCESS-NAME,qbittorrent
   - PROCESS-NAME,Folx
   - PROCESS-NAME,NetTransport
@@ -29,6 +30,7 @@ payload:
   - PROCESS-NAME,DownloadService
   - PROCESS-NAME,Weiyun
   - PROCESS-NAME,baidunetdisk
+  - PROCESS-NAME,ssh.exe
   - PROCESS-NAME,qbittorrent.exe
   - PROCESS-NAME,NetTransport.exe
   - PROCESS-NAME,Thunder.exe
